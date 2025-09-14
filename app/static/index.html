@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health AI - Support & Assessment Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: var(--radius);
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            display: none;
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f9fafb;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: var(--primary);
+        }
+
+        .message.ai .message-avatar {
+            background: var(--success);
+        }
+
+        .message-content {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 70%;
+        }
+
+        .message.user .message-content {
+            background: var(--primary);
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Assessment Form */
+        .assessment-container {
+            display: none;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Results */
+        .results-container {
+            display: none;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .risk-level {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .risk-low { background: #dcfce7; color: #166534; }
+        .risk-medium { background: #fef3c7; color: #92400e; }
+        .risk-high { background: #fee2e2; color: #dc2626; }
+        .risk-critical { background: #fecaca; color: #b91c1c; }
+
+        .recommendations {
+            margin-top: 1rem;
+        }
+
+        .recommendation-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* Emergency Resources */
+        .emergency-banner {
+            background: var(--danger);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: var(--radius);
+        }
+
+        .emergency-resources {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .resource-card {
+            background: var(--secondary);
+            padding: 1rem;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            display: none;
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        /* Loading States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { background: var(--success); }
+        .notification.error { background: var(--danger); }
+        .notification.warning { background: var(--warning); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus styles for accessibility */
+        button:focus, input:focus, textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>Mental Health AI</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                    <li><a href="#assessment" onclick="showSection('assessment')">Assessment</a></li>
+                    <li><a href="#chat" onclick="showSection('chat')">Chat Support</a></li>
+                    <li><a href="#resources" onclick="showSection('resources')">Resources</a></li>
+                </ul>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" onclick="showSection('login')">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="btn btn-primary" onclick="showSection('register')">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <span id="userName">Welcome!</span>
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Emergency Banner -->
+            <div class="emergency-banner">
+                <strong>🚨 Mental Health Emergency?</strong> 
+                Call <strong>988</strong> (Crisis Lifeline) | Text <strong>HOME</strong> to <strong>741741</strong> | Emergency: <strong>911</strong>
+            </div>
+
+            <!-- Home Section -->
+            <section id="homeSection" class="section">
+                <div class="hero">
+                    <h1>AI-Powered Mental Health Support</h1>
+                    <p>Get personalized mental health assessments, chat with our therapeutic AI, and access professional resources 24/7</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showSection('assessment')">
+                            <i class="fas fa-clipboard-check"></i> Start Assessment
+                        </button>
+                        <button class="btn btn-success" onclick="showSection('chat')">
+                            <i class="fas fa-comments"></i> Chat Now
+                        </button>
+                        <button class="btn btn-outline" onclick="showSection('resources')">
+                            <i class="fas fa-heart"></i> Get Resources
+                        </button>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Advanced AI Assessment</h3>
+                            <p>Multi-model AI analysis including sentiment, emotion, and risk evaluation with 90%+ accuracy</p>
+                        </div>
+                    </div>
+
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Therapeutic Chatbot</h3>
+                            <p>Conversational AI trained in CBT, DBT, and mindfulness techniques for emotional support</p>
+                        </div>
+                    </div>
+
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Crisis Detection</h3>
+                            <p>Real-time crisis detection with immediate intervention protocols and professional resources</p>
+                        </div>
+                    </div>
+
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Progress Tracking</h3>
+                            <p>Monitor your mental health journey with personalized insights and improvement recommendations</p>
+                        </div>
+                    </div>
+
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Privacy & Security</h3>
+                            <p>HIPAA-compliant security with end-to-end encryption and anonymous support options</p>
+                        </div>
+                    </div>
+
+                    <div class="card feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">24/7 Availability</h3>
+                            <p>Immediate support when you need it most, with instant AI responses and crisis resources</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assessment Section -->
+            <section id="assessmentSection" class="section assessment-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Mental Health Assessment
+                        </h2>
+                        <p>Share your thoughts and feelings for a personalized AI-powered assessment</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="assessmentForm">
+                            <div class="form-group">
+                                <label class="form-label" for="assessmentText">
+                                    How are you feeling today? Share what's on your mind:
+                                </label>
+                                <textarea 
+                                    id="assessmentText" 
+                                    class="form-input" 
+                                    placeholder="Take your time to express your thoughts and feelings. There's no right or wrong answer..."
+                                    required
+                                ></textarea>
+                                <small style="color: var(--text-secondary);">
+                                    Your privacy is protected. This assessment helps our AI provide personalized support.
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="assessmentType">Assessment Focus:</label>
+                                <select id="assessmentType" class="form-input">
+                                    <option value="general">General Mental Health</option>
+                                    <option value="mood">Mood & Emotions</option>
+                                    <option value="anxiety">Anxiety & Stress</option>
+                                    <option value="depression">Depression Screening</option>
+                                    <option value="crisis">Crisis Support</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-brain"></i> Analyze with AI
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assessment Results -->
+            <section id="resultsSection" class="section results-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Assessment Results
+                        </h2>
+                    </div>
+                    <div class="card-body" id="resultsContent">
+                        <!-- Results will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section id="chatSection" class="section chat-container">
+                <div class="chat-header">
+                    <div>
+                        <h2><i class="fas fa-robot"></i> Mental Health AI Assistant</h2>
+                        <small>Therapeutic AI trained in evidence-based techniques</small>
+                    </div>
+                    <button class="btn btn-outline" onclick="clearChat()" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI mental health support assistant. I'm here to listen, provide support, and help you work through whatever is on your mind.</p>
+                            <p><strong>How are you feeling today?</strong></p>
+                            <small style="opacity: 0.8;">Remember: I provide support but am not a replacement for professional care. In crisis situations, please contact 988.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <input 
+                            type="text" 
+                            id="chatInput" 
+                            placeholder="Share your thoughts and feelings..."
+                            maxlength="500"
+                        >
+                        <button class="btn btn-primary" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                    <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+                        Press Enter to send • Your conversation is private and secure
+                    </small>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resourcesSection" class="section" style="display: none;">
+                <div class="emergency-resources">
+                    <h2><i class="fas fa-phone"></i> Emergency Mental Health Resources</h2>
+                    <div class="resource-grid">
+                        <div class="resource-card">
+                            <h3><i class="fas fa-phone-alt"></i> Crisis Lifeline</h3>
+                            <p><strong>988</strong></p>
+                            <p>24/7 free and confidential support for people in distress</p>
+                        </div>
+                        <div class="resource-card">
+                            <h3><i class="fas fa-sms"></i> Crisis Text Line</h3>
+                            <p><strong>Text HOME to 741741</strong></p>
+                            <p>24/7 crisis support via text message</p>
+                        </div>
+                        <div class="resource-card">
+                            <h3><i class="fas fa-ambulance"></i> Emergency</h3>
+                            <p><strong>911</strong></p>
+                            <p>For immediate physical danger or medical emergencies</p>
+                        </div>
+                        <div class="resource-card">
+                            <h3><i class="fas fa-hand-holding-heart"></i> SAMHSA Helpline</h3>
+                            <p><strong>1-800-662-4357</strong></p>
+                            <p>Treatment referral and information services</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3>Professional Mental Health Resources</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="resource-grid">
+                            <div>
+                                <h4><i class="fas fa-user-md"></i> Find a Therapist</h4>
+                                <p>Psychology Today - therapist directory</p>
+                                <a href="https://www.psychologytoday.com" target="_blank" class="btn btn-outline">Find Therapist</a>
+                            </div>
+                            <div>
+                                <h4><i class="fas fa-hospital"></i> Mental Health Treatment</h4>
+                                <p>SAMHSA treatment locator</p>
+                                <a href="https://findtreatment.samhsa.gov" target="_blank" class="btn btn-outline">Find Treatment</a>
+                            </div>
+                            <div>
+                                <h4><i class="fas fa-users"></i> Support Groups</h4>
+                                <p>NAMI support group finder</p>
+                                <a href="https://www.nami.org" target="_blank" class="btn btn-outline">Find Groups</a>
+                            </div>
+                            <div>
+                                <h4><i class="fas fa-mobile-alt"></i> Mental Health Apps</h4>
+                                <p>Recommended by mental health professionals</p>
+                                <button class="btn btn-outline" onclick="showApps()">View Apps</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Auth Sections -->
+            <section id="loginSection" class="section auth-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label class="form-label" for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem;">
+                            Don't have an account? 
+                            <a href="#" onclick="showSection('register')" style="color: var(--primary);">Sign up</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="registerSection" class="section auth-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label class="form-label" for="registerEmail">Email</label>
+                                <input type="email" id="registerEmail" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="registerUsername">Username</label>
+                                <input type="text" id="registerUsername" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="registerPassword">Password</label>
+                                <input type="password" id="registerPassword" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="registerFirstName">First Name (Optional)</label>
+                                <input type="text" id="registerFirstName" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox" id="dataConsent" required>
+                                    I consent to data processing for mental health support
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem;">
+                            Already have an account? 
+                            <a href="#" onclick="showSection('login')" style="color: var(--primary);">Login</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Processing with AI...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="notifications"></div>
+
+<script src="/static/function.js"></script>
+
+</body>
+</html>
+ 
